@@ -1,44 +1,63 @@
-let bodyMenu = document.getElementById('body-menu');
+const MAX_PLAYERS_NUMBER = 4,
+    MIN_PLAYERS_NUMBER = 2,
+    PLAYERS_NUMBER = {};
+
+let bodyMenu = document.getElementById('game-menu'),
+    ul = document.getElementById('body-game-menu');
 
 bodyMenu.addEventListener('click', function (eo) {
-    let button = eo.target;
+    let button = eo.target,
+        li = document.getElementsByClassName('player');
 
-    if (button.className === 'add-btn') {
-        createBodyMenuElement();
+    if (button.className === 'add-player-btn') {
+
+        if (li.length < MAX_PLAYERS_NUMBER) {
+            createBodyMenuElement();
+        }
     }
 
-    if (button.className === 'remove-btn') {
-        removeBodyMenuElement(button);
+    if (button.className === 'remove-player-btn') {
+
+        if (li.length > MIN_PLAYERS_NUMBER) {
+            removeBodyMenuElement(button);
+        }
     }
 
-    if (button.className === 'close-btn') {
-        let headerMenu = document.getElementById('header-menu');
-        
-        removeBodyMenuElement(headerMenu);
+    if (button.className === 'close-game-menu-btn') {
+        let gameMenu = button.parentElement;
+
+        removeBodyMenuElement(gameMenu);
+    }
+
+    if (button.className === 'start-game-btn') {
+        if (li.length >= MIN_PLAYERS_NUMBER) {
+            console.log("START GAME!!!", li.length);
+        }
     }
 }, false);
 
 function createBodyMenuElement() {
-    let addButton = document.createElement('button'),
-        removeButton = document.createElement('button'),
+    let li = document.createElement('li'),
+        addButton = document.createElement('button'),
         input = document.createElement('input'),
-        div = document.createElement('div');
+        removeButton = document.createElement('button');
 
-    input.setAttribute('type', 'text');
-    input.setAttribute('name', 'name');
-    input.setAttribute('placeholder', 'Enter Name');
+    li.className = 'player';
 
-    removeButton.className = 'remove-btn';
-    removeButton.innerHTML = '-';
-
-    addButton.className = 'add-btn';
     addButton.innerHTML = '+';
+    addButton.className = 'add-player-btn';
 
-    div.appendChild(addButton);
-    div.appendChild(input);
-    div.appendChild(removeButton);
+    input.name = 'playerName';
+    input.placeholder = 'Enter Name';
+    input.type = 'text';
 
-    bodyMenu.appendChild(div);
+    removeButton.innerHTML = '-';
+    removeButton.className = 'remove-player-btn';
+
+    li.appendChild(addButton);
+    li.appendChild(input);
+    li.appendChild(removeButton);
+    ul.appendChild(li);
 }
 
 function removeBodyMenuElement(e) {
