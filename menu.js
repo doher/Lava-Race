@@ -10,6 +10,12 @@ bodyMenu.addEventListener('click', function (eo) {
     if (button.className === 'remove-btn') {
         removeBodyMenuElement(button);
     }
+
+    if (button.className === 'close-btn') {
+        let headerMenu = document.getElementById('header-menu');
+        
+        removeBodyMenuElement(headerMenu);
+    }
 }, false);
 
 function createBodyMenuElement() {
