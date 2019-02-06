@@ -7,18 +7,19 @@ let bodyMenu = document.getElementById('game-menu'),
 
 bodyMenu.addEventListener('click', function (eo) {
     let button = eo.target,
-        li = document.getElementsByClassName('player');
+        input = document.getElementsByName('playerName'),
+        inputLength = input.length;
 
     if (button.className === 'add-player-btn') {
 
-        if (li.length < MAX_PLAYERS_NUMBER) {
+        if (inputLength < MAX_PLAYERS_NUMBER) {
             createBodyMenuElement();
         }
     }
 
     if (button.className === 'remove-player-btn') {
 
-        if (li.length > MIN_PLAYERS_NUMBER) {
+        if (inputLength > MIN_PLAYERS_NUMBER) {
             removeBodyMenuElement(button);
         }
     }
@@ -30,8 +31,22 @@ bodyMenu.addEventListener('click', function (eo) {
     }
 
     if (button.className === 'start-game-btn') {
-        if (li.length >= MIN_PLAYERS_NUMBER) {
-            console.log("START GAME!!!", li.length);
+        if (inputLength >= MIN_PLAYERS_NUMBER) {
+            for (let i = 0; i < inputLength; ++i) {
+                let errorMessage = document.getElementById('error-message-menu');
+
+                if (!input[i].value.trim()) {
+                    input[i].className = 'error';
+                    errorMessage.innerHTML = 'Введите Имя Игрока';
+                    console.log('Поля с имнами должны быть заполнены!');
+                    return;
+                }
+
+                input[i].className = null;
+                errorMessage.innerHTML = null;
+
+                PLAYERS_NUMBER[i + 1] = input[i].value.trim();
+            }
         }
     }
 }, false);
@@ -42,14 +57,12 @@ function createBodyMenuElement() {
         input = document.createElement('input'),
         removeButton = document.createElement('button');
 
-    li.className = 'player';
-
     addButton.innerHTML = '+';
     addButton.className = 'add-player-btn';
 
+    input.type = 'text';
     input.name = 'playerName';
     input.placeholder = 'Enter Name';
-    input.type = 'text';
 
     removeButton.innerHTML = '-';
     removeButton.className = 'remove-player-btn';
@@ -60,6 +73,6 @@ function createBodyMenuElement() {
     ul.appendChild(li);
 }
 
-function removeBodyMenuElement(e) {
-    e.parentElement.remove();
+function removeBodyMenuElement(item) {
+    item.parentElement.remove();
 }

@@ -45,6 +45,10 @@ input {
     border-radius: 5px;
 }
 
+.error {
+    border: 1px solid red;
+}
+
 .add-player-btn, .remove-player-btn, .close-game-menu-btn {
     box-sizing:  border-box;
     width: 10%;
